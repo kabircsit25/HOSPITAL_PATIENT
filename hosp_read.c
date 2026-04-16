@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 struct hosp_write {
     char name[20];
@@ -10,27 +9,32 @@ struct hosp_write {
     char ward[20];
 };
 
-// Windows-safe case-insensitive compare
-int compareIgnoreCase(char *a, char *b) {
-    while (*a && *b) {
-        if (tolower(*a) != tolower(*b))
-            return 0;
-        a++;
-        b++;
-    }
-    return *a == *b;
-}
-
-void displayKathmanduPatients(FILE *fp) {
+int main() {
+    FILE *fp;
     struct hosp_write hpp;
-    int count = 0;
     char searchCity[20];
+    int count = 0;
 
-    printf("\nEnter city to filter: ");
+    fp = fopen("hospital.txt", "r");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    printf("Enter city to search: ");
     scanf("%s", searchCity);
 
-    printf("\n\nPatients from %s:\n", searchCity);
-    printf("Name\tAge\tAddress\t\tCondition\tWard\n");
+    printf("\nPatients from %s:\n\n", searchCity);
+
+    // Top border
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+
+    // Header
+    printf("| %-14s | %-3s | %-14s | %-14s | %-13s |\n",
+           "Name", "Age", "Address", "Condition", "Ward");
+
+    // Separator
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
 
     while (fscanf(fp, "%s %d %s %s %s",
                   hpp.name,
@@ -39,8 +43,8 @@ void displayKathmanduPatients(FILE *fp) {
                   hpp.condition,
                   hpp.ward) == 5) {
 
-        if (compareIgnoreCase(hpp.address, searchCity)) {
-            printf("%s\t%d\t%s\t%s\t%s\n",
+        if (strcmp(hpp.address, searchCity) == 0) {
+            printf("| %-14s | %-3d | %-14s | %-14s | %-13s |\n",
                    hpp.name,
                    hpp.age,
                    hpp.address,
@@ -51,23 +55,14 @@ void displayKathmanduPatients(FILE *fp) {
         }
     }
 
+    // Bottom border
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+
     if (count == 0) {
-        printf("No patients found from %s.\n", searchCity);
+        printf("\nNo patients found.\n");
+    } else {
+        printf("\nTotal patients found: %d\n", count);
     }
-
-    printf("\nTotal patients from %s: %d\n", searchCity, count);
-}
-
-int main() {
-    FILE *fp;
-
-    fp = fopen("hospital.txt", "r");
-    if (fp == NULL) {
-        printf("Error opening file!\n");
-        return 1;
-    }
-
-    displayKathmanduPatients(fp);
 
     fclose(fp);
     return 0;
