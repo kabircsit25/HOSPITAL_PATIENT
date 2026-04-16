@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-=======
+// <<<<<<< HEAD
+// =======
 #include <stdio.h>
 
 struct hosp_write
@@ -16,7 +16,7 @@ int main()
     struct hosp_write hpp[24];
     FILE *fp;
     int i;
-    fp = fopen("./output/hospital.txt", "r");
+    fp = fopen("hospital.txt", "r");
     if (fp == NULL)
     {
         printf("Unable to find file");
@@ -49,7 +49,7 @@ int main()
     }
 
     // dispalying the oldest and youngest age
-    printf("Oldest age patients detail:\n");
+    // printf("Oldest age patients detail:\n");
     for (i = 0; i < 24; i++)
     {
         if (oldest_age == hpp[i].age)
@@ -69,4 +69,4 @@ int main()
     fclose(fp);
     return 0;
 }
->>>>>>> cdba603a88f480db8447948cf30b9660edf5eabb
+//>>>>>>> cdba603a88f480db8447948cf30b9660edf5eabb
