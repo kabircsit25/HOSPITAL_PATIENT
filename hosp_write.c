@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h>
 
-struct hosp_write {
+struct hosp_write
+{
     char name[20];
     int age;
     char address[50];
@@ -9,49 +9,46 @@ struct hosp_write {
     char ward[20];
 };
 
-int main() {
-    FILE *fp;
+int main()
+{
     struct hosp_write hpp;
-    char searchCity[20];
-    int count = 0;
+    int i;
+    FILE *fp;
 
-    fp = fopen("hospital.txt", "r");
-    if (fp == NULL) {
-        printf("Error opening file!\n");
+    fp = fopen("hospital.txt", "w");
+    if(fp == NULL)
+    {
+        printf("Error opening file!");
         return 1;
     }
 
-    printf("Enter city to search: ");
-    scanf("%s", searchCity);
+    printf("Enter details of 24 patients (NO spaces in input)\n");
 
-    printf("\nPatients from %s:\n", searchCity);
-    printf("Name\tAge\tAddress\tCondition\tWard\n");
+    for(i = 0; i < 24; i++)
+    {
+        printf("\nPatient %d\n", i + 1);
 
-    while (fscanf(fp, "%s %d %s %s %s",
-                  hpp.name,
-                  &hpp.age,
-                  hpp.address,
-                  hpp.condition,
-                  hpp.ward) == 5) {
+        printf("Name: ");
+        scanf("%s", hpp.name);
 
-        // simple comparison (case-sensitive)
-        if (strcmp(hpp.address, searchCity) == 0) {
-            printf("%s\t%d\t%s\t%s\t%s\n",
-                   hpp.name,
-                   hpp.age,
-                   hpp.address,
-                   hpp.condition,
-                   hpp.ward);
+        printf("Age: ");
+        scanf("%d", &hpp.age);
 
-            count++;
-        }
+        printf("Address: ");
+        scanf("%s", hpp.address);
+
+        printf("Condition: ");
+        scanf("%s", hpp.condition);
+
+        printf("Ward: ");
+        scanf("%s", hpp.ward);
+
+        fprintf(fp, "%s %d %s %s %s\n",
+                hpp.name, hpp.age, hpp.address,
+                hpp.condition, hpp.ward);
     }
 
-    if (count == 0) {
-        printf("No patients found.\n");
-    } else {
-        printf("\nTotal patients found: %d\n", count);
-    }
+    printf("\nData saved successfully to hospital.txt\n");
 
     fclose(fp);
     return 0;
