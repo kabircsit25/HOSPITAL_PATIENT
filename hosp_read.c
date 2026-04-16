@@ -8,7 +8,8 @@ struct hosp_write
     char condition[100];
     char ward[20];
 };
-//Kathmandu patients by Arun 
+
+//Kathmandu patients by Arun -1
 
 void displayKathmanduPatients()
 {
@@ -36,7 +37,116 @@ void displayKathmanduPatients()
         printf("No patients found from %s.\n", searchCity);
         printf("\nTotal patients from %s: %d\n", searchCity, count);
 }
-// Patient count by kabir
+
+//Age by Ankit -2
+
+void hospitalage()
+{
+    struct hosp_write hpp[24];
+    FILE *fp;
+    int i;
+    fp = fopen("hospital.txt", "r");
+    if (fp == NULL)
+    {
+        printf("Unable to find file");
+    }
+    else
+    {
+        for (i = 0; i < 24; i++)
+        { // Copying whole line from the file
+            fscanf(fp, "%s %d %s %s %s", &hpp[i].name, &hpp[i].age, &hpp[i].address, &hpp[i].condition, &hpp[i].ward);
+        }
+    }
+
+    int oldest_age = hpp[0].age;
+    int youngest_age = hpp[0].age;
+    int oldest_age_index = 0;
+    int youngest_age_index = 0;
+    // Comparing & replacing the oldest and youngest age
+    for (i = 0; i < 24; i++)
+    {
+        if (oldest_age < hpp[i].age)
+        {
+            oldest_age = hpp[i].age;
+            oldest_age_index = i;
+        }
+        if (youngest_age > hpp[i].age)
+        {
+            youngest_age = hpp[i].age;
+            youngest_age_index = i;
+        }
+    }
+
+    // dispalying the oldest and youngest age
+    printf("Oldest age patients detail:\n");
+    for (i = 0; i < 24; i++)
+    {
+        if (oldest_age == hpp[i].age)
+        {
+            printf("Oldest patient with age %d: %s\n", hpp[i].age, hpp[i].name);
+        }
+    }
+
+    for (i = 0; i < 24; i++)
+    {
+        if (youngest_age == hpp[i].age)
+        {
+            printf("Youngest patient with age %d: %s\n", hpp[i].age, hpp[i].name);
+        }
+    }
+
+    fclose(fp);
+}
+
+//Patient critical condition by Bikash -3
+
+void hospitalcondition()
+{
+    int i;
+    struct hosp_write hpp[24];
+    FILE *fp;
+    fp = fopen("hospital.txt", "r");
+    if(fp == NULL)
+    {
+        printf("Error opening file!\n");
+    
+    }
+    printf("\nPatients with Critical Condition:\n\n");
+    // Top border
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+    // Header
+    printf("| %-14s | %-3s | %-14s | %-14s | %-13s |\n",
+           "Name", "Age", "Address", "Condition", "Ward");
+    // Separator
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+    for(i = 0; i < 24; i++)
+    {
+        if(fscanf(fp, "%s %d %s %s %s",
+     hpp[i].name,
+     &hpp[i].age,
+      hpp[i].address,
+      hpp[i].condition,
+    hpp[i].ward) != 5)
+        {
+            break;
+        }
+        if(strcmp(hpp[i].condition, "Critical") == 0)
+        {
+            printf("| %-14s | %-3d | %-14s | %-14s | %-13s |\n",
+                   hpp[i].name,
+                   hpp[i].age,
+                   hpp[i].address,
+                   hpp[i].condition,
+                   hpp[i].ward);
+        }
+    }
+    // Bottom border
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+    fclose(fp);
+
+}
+
+// Patient count by Kabir -4
 
 
 int hospitalPatientCount()
@@ -204,7 +314,7 @@ int main()
         return 1;
     }
     int number;
-    printf("Enter the project number to execute (1 for Kathmandu Patients, 4 for Patient Count): ");
+    printf("Enter the project number to execute (1 for Kathmandu Patients, 2 for Oldest/Yongest Patient , 3 for Critical Condition, 4 for Patient Count): ");
     scanf("%d", &number);
     printf("Details of 24 Patients:\n");
     printf("Name \t Age \t Address \t Condition \t Ward\n");
@@ -219,6 +329,12 @@ int main()
     {
     case 1:
         displayKathmanduPatients();
+        break;
+    case 2:
+        hospitalage();
+        break;
+    case 3:
+        hospitalcondition();
         break;
     case 4:
         hospitalPatientCount();
