@@ -72,7 +72,13 @@ int main()
 {
     FILE *fp;
     struct hosp_write hpp;
-    fp = fopen("C:/Users/hp/HOSPITAL_PATIENT/output/hospital.txt", "r");
+    //Path to the file is given as per the system, so it may be different for other system. So, change the path according to your system. For example, if you are using linux, then the path will be like this: fp = fopen("/home/user/HOSPITAL_PATIENT/output/hospital.txt", "r");
+
+    //fp = fopen("C:/Users/hp/HOSPITAL_PATIENT/output/hospital.txt", "r");
+
+    //path in main function is not required as the path is already given in the hospitalage function. So, I have commented the path in main function and added the path in hospitalage function. So, you can change the path in hospitalage function according to your system.
+    
+    fp = fopen("hospital.txt", "r");
     if(fp == NULL)
     {
         printf("Error opening file!");
