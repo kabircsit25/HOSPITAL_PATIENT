@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+
 struct hosp_write
 {
     char name[20];
@@ -8,52 +8,80 @@ struct hosp_write
     char condition[100];
     char ward[20];
 };
-void displayKathmanduPatients(FILE *fp)
+
+void hospitalage()
 {
-    struct hosp_write hpp;
-    int count = 0;
-    char searchCity[20];
-    printf("\nEnter city to filter: ");
-    scanf("%s", searchCity);
-    printf("\n\nPatients from %s:\n", searchCity);
-    printf("Name \t Age \t Address \t Condition \t Ward\n");
-    rewind(fp);
-    for(int i = 0; i < 24; i++)
+    struct hosp_write hpp[24];
+    FILE *fp;
+    int i;
+    fp = fopen("C:/Users/hp/HOSPITAL_PATIENT/output/hospital.txt", "r");
+    //fp = fopen("./output/hospital.txt", "r");
+    if (fp == NULL)
     {
-        if(fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
-            break; // Stop if reading fails
-        if(strstr(hpp.address, searchCity) != NULL)
-        {
-            printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
-            count++;
+        printf("Unable to find file");
+    }
+    else
+    {
+        for (i = 0; i < 24; i++)
+        { // Copying whole line from the file
+            fscanf(fp, "%s %d %s %s %s", &hpp[i].name, &hpp[i].age, &hpp[i].address, &hpp[i].condition, &hpp[i].ward);
         }
     }
-    if(count == 0)
-        printf("No patients found from %s.\n", searchCity);
-        printf("\nTotal patients from %s: %d\n", searchCity, count);
+
+    int oldest_age = hpp[0].age;
+    int youngest_age = hpp[0].age;
+    int oldest_age_index = 0;
+    int youngest_age_index = 0;
+    // Comparing & replacing the oldest and youngest age
+    for (i = 0; i < 24; i++)
+    {
+        if (oldest_age < hpp[i].age)
+        {
+            oldest_age = hpp[i].age;
+            oldest_age_index = i;
+        }
+        if (youngest_age > hpp[i].age)
+        {
+            youngest_age = hpp[i].age;
+            youngest_age_index = i;
+        }
+    }
+
+    // dispalying the oldest and youngest age
+    printf("Oldest age patients detail:\n");
+    for (i = 0; i < 24; i++)
+    {
+        if (oldest_age == hpp[i].age)
+        {
+            printf("Oldest patient with age %d: %s\n", hpp[i].age, hpp[i].name);
+        }
+    }
+
+    for (i = 0; i < 24; i++)
+    {
+        if (youngest_age == hpp[i].age)
+        {
+            printf("Youngest patient with age %d: %s\n", hpp[i].age, hpp[i].name);
+        }
+    }
+
+    fclose(fp);
 }
+
 int main()
 {
-    struct hosp_write hpp;
-    int i;
     FILE *fp;
-    fp = fopen("hospital.txt", "r");
+    struct hosp_write hpp;
+    fp = fopen("C:/Users/hp/HOSPITAL_PATIENT/output/hospital.txt", "r");
     if(fp == NULL)
     {
         printf("Error opening file!");
         return 1;
     }
-    printf("Details of 24 Patients:\n");
-    printf("Name \t Age \t Address \t Condition \t Ward\n");
-     for(i = 1; i <= 24; i++)
-    {
-       if(fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
-            break;
-        printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
-    }
-    // Call BEFORE fclose
-    displayKathmanduPatients(fp);
+    hospitalage();
 
     fclose(fp); // Close AFTER all file operations are done
     return 0;
 }
+
+//hosp_read.c
