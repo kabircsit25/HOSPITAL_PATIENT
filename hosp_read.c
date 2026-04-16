@@ -8,52 +8,63 @@ struct hosp_write
     char condition[100];
     char ward[20];
 };
-void displayKathmanduPatients(FILE *fp)
+void hospitalcondition()
 {
-    struct hosp_write hpp;
-    int count = 0;
-    char searchCity[20];
-    printf("\nEnter city to filter: ");
-    scanf("%s", searchCity);
-    printf("\n\nPatients from %s:\n", searchCity);
-    printf("Name \t Age \t Address \t Condition \t Ward\n");
-    rewind(fp);
-    for(int i = 0; i < 24; i++)
+    int i;
+    struct hosp_write hpp[24];
+    FILE *fp;
+    fp = fopen("./output/hospital.txt", "r");
+    if(fp == NULL)
     {
-        if(fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
-            break; // Stop if reading fails
-        if(strstr(hpp.address, searchCity) != NULL)
+        printf("Error opening file!\n");
+    
+    }
+    printf("\nPatients with Critical Condition:\n\n");
+    // Top border
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+    // Header
+    printf("| %-14s | %-3s | %-14s | %-14s | %-13s |\n",
+           "Name", "Age", "Address", "Condition", "Ward");
+    // Separator
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+    for(i = 0; i < 24; i++)
+    {
+        if(fscanf(fp, "%s %d %s %s %s",
+     hpp[i].name,
+     &hpp[i].age,
+      hpp[i].address,
+      hpp[i].condition,
+    hpp[i].ward) != 5)
         {
-            printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
-            count++;
+            break;
+        }
+        if(strcmp(hpp[i].condition, "Critical") == 0)
+        {
+            printf("| %-14s | %-3d | %-14s | %-14s | %-13s |\n",
+                   hpp[i].name,
+                   hpp[i].age,
+                   hpp[i].address,
+                   hpp[i].condition,
+                   hpp[i].ward);
         }
     }
-    if(count == 0)
-        printf("No patients found from %s.\n", searchCity);
-        printf("\nTotal patients from %s: %d\n", searchCity, count);
+    // Bottom border
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+    fclose(fp);
+
 }
 int main()
+
 {
-    struct hosp_write hpp;
-    int i;
+
     FILE *fp;
-    fp = fopen("hospital.txt", "r");
+    struct hosp_write hpp;
+    fp = fopen("./output/hospital.txt", "r");
     if(fp == NULL)
     {
         printf("Error opening file!");
         return 1;
     }
-    printf("Details of 24 Patients:\n");
-    printf("Name \t Age \t Address \t Condition \t Ward\n");
-     for(i = 1; i <= 24; i++)
-    {
-       if(fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
-            break;
-        printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
-    }
-    // Call BEFORE fclose
-    displayKathmanduPatients(fp);
-
-    fclose(fp); // Close AFTER all file operations are done
-    return 0;
+    hospitalcondition();
 }
+
