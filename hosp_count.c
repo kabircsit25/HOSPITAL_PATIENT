@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <string.h>
 struct hosp_read
 {
     char name[50];
@@ -7,12 +8,12 @@ struct hosp_read
     char address[50];
     char condition[50];
     char ward_name[50];
-};
-int main()
+}hpp;
+int hospitalPatientCount()
 {
     int i, w1 = 0, w2 = 0, w3 = 0, w4 = 0, w5 = 0, w6 = 0, w7 = 0, w8 = 0, w9 = 0, w10 = 0;
     struct hosp_read hpp[24];
-    FILE *fp;
+     FILE *fp;
     fp = fopen("hospital.txt", "r");
     for (i = 0; i < 24; i++)
     {
@@ -155,7 +156,36 @@ int main()
     //         printf("%s \t %d \t %s \t %s \t %s \t %d\n", hpp[i].name, hpp[i].age, hpp[i].address, hpp[i].condition, hpp[i].ward_name, w10);
     //     }
     // }
-
-    return 0;
+return 0;
 }
 //The reason behind commit is the qn asked to count the number of patients in each ward but the code gives the full info of the patients in each ward. So I have commented the code which gives the full info of the patients in each ward and added the code which gives only the count of patients in each ward.
+
+
+int main()
+
+{
+
+    int i;
+    FILE *fp;
+    struct hosp_read hpp;
+    fp = fopen("hospital.txt", "r");
+    if(fp == NULL)
+    {
+        printf("Error opening file!");
+        return 1;
+    }
+    // printf("Details of 24 Patients:\n");
+    // printf("Name \t Age \t Address \t Condition \t Ward\n");
+    //  for(i = 0; i <= 23; i++)
+    // {
+    //    if(fscanf(fp, "%s %d %s %s %s", hpp[i].name, &hpp[i].age, hpp[i].address, hpp[i].condition, hpp[i].ward ) != 5)
+    //         break;
+    //     printf("%s\t%d\t%s\t%s\t%s\n", hpp[i].name, hpp[i].age, hpp[i].address, hpp[i].condition, hpp[i].ward );
+    // }
+    // Call BEFORE fclose
+    // displayKathmanduPatients(fp);
+    hospitalPatientCount(fp);
+
+    fclose(fp); // Close AFTER all file operations are done
+    return 0;
+}
