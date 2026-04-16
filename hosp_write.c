@@ -1,7 +1,7 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <string.h>
 
-struct hosp_write
-{
+struct hosp_write {
     char name[20];
     int age;
     char address[50];
@@ -9,45 +9,49 @@ struct hosp_write
     char ward[20];
 };
 
-int main()
-{
-    struct hosp_write hpp;
-    int i;
+int main() {
     FILE *fp;
+    struct hosp_write hpp;
+    char searchCity[20];
+    int count = 0;
 
-    fp = fopen("hospital.txt", "w");
-    if(fp == NULL)
-    {
-        printf("Error opening file!");
+    fp = fopen("hospital.txt", "r");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
         return 1;
     }
 
-    printf("Enter the Details of 24 Patients:\n");
-    printf("Name | Age | Address | Condition | Ward\n");
+    printf("Enter city to search: ");
+    scanf("%s", searchCity);
 
-    for(i = 1; i <= 24; i++)
-    {
-        printf("\nPatient %d:\n", i);
+    printf("\nPatients from %s:\n", searchCity);
+    printf("Name\tAge\tAddress\tCondition\tWard\n");
 
-        printf("Name: ");
-        scanf("%19s", hpp.name);
+    while (fscanf(fp, "%s %d %s %s %s",
+                  hpp.name,
+                  &hpp.age,
+                  hpp.address,
+                  hpp.condition,
+                  hpp.ward) == 5) {
 
-        printf("Age: ");
-        scanf("%d", &hpp.age);
+        // simple comparison (case-sensitive)
+        if (strcmp(hpp.address, searchCity) == 0) {
+            printf("%s\t%d\t%s\t%s\t%s\n",
+                   hpp.name,
+                   hpp.age,
+                   hpp.address,
+                   hpp.condition,
+                   hpp.ward);
 
-        printf("Address (no spaces): ");
-        scanf("%49s", hpp.address); 
-
-        printf("Condition (no spaces): ");
-        scanf("%99s", hpp.condition);
-
-        printf("Ward: ");
-        scanf("%19s", hpp.ward);
-        fprintf(fp, "%s %d %s %s %s\n",
-                hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
+            count++;
+        }
     }
 
-    printf("\nData saved successfully to hospital.txt\n");
+    if (count == 0) {
+        printf("No patients found.\n");
+    } else {
+        printf("\nTotal patients found: %d\n", count);
+    }
 
     fclose(fp);
     return 0;
