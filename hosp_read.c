@@ -319,13 +319,13 @@ int main()
     scanf("%d", &number);
     printf("Details of 24 Patients:\n");
     printf("Name \t Age \t Address \t Condition \t Ward\n");
-     for(i = 1; i <= 24; i++)
-    {
-       if(fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
-            break;
-        printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
-    }
-    // Call BEFORE fclose
+    //  for(i = 1; i <= 24; i++)
+    // {
+    //    fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward);
+        
+    //     printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
+    // }
+    //Call BEFORE fclose
     switch (number)
     {
     case 1:
