@@ -13,7 +13,7 @@ void hospitalcondition()
     int i;
     struct hosp_write hpp[24];
     FILE *fp;
-    fp = fopen("./output/hospital.txt", "r");
+    fp = fopen("hospital.txt", "r");
     if(fp == NULL)
     {
         printf("Error opening file!\n");

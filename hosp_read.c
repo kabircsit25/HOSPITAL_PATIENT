@@ -77,7 +77,7 @@ void hospitalage()
         }
     }
 
-    // dispalying the oldest and youngest age
+     // dispalying the oldest and youngest age
     printf("Oldest age patients detail:\n");
     for (i = 0; i < 24; i++)
     {
@@ -86,7 +86,8 @@ void hospitalage()
             printf("Oldest patient with age %d: %s\n", hpp[i].age, hpp[i].name);
         }
     }
-
+    printf("\n");
+    printf("Youngest age patients detail:\n");
     for (i = 0; i < 24; i++)
     {
         if (youngest_age == hpp[i].age)

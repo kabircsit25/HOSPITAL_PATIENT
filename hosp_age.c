@@ -14,7 +14,7 @@ void hospitalage()
     struct hosp_write hpp[24];
     FILE *fp;
     int i;
-    fp = fopen("C:/Users/hp/HOSPITAL_PATIENT/output/hospital.txt", "r");
+    fp = fopen("hospital.txt", "r");
     //fp = fopen("./output/hospital.txt", "r");
     if (fp == NULL)
     {
@@ -56,7 +56,8 @@ void hospitalage()
             printf("Oldest patient with age %d: %s\n", hpp[i].age, hpp[i].name);
         }
     }
-
+    printf("\n");
+    printf("Youngest age patients detail:\n");
     for (i = 0; i < 24; i++)
     {
         if (youngest_age == hpp[i].age)
