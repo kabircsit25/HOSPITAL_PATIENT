@@ -8,7 +8,7 @@ Each C file implements a specific operation on the same 24-record dataset.
 ## Project Structure
 
 ```
-Hospital/
+Hospital_PATIENT/
 ├── hosp_write.c      # Creates and writes 24 patient records to hospital.txt
 ├── hosp_read.c       # Combined utility functions (city, age, condition, ward count)
 ├── hosp_place.c      # City-based patient filter
