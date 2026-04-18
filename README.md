@@ -15,12 +15,12 @@ Hospital/
 ├── hosp_age.c        # Oldest and youngest patient finder
 ├── hosp_condn.c      # Critical condition filter
 ├── hosp_count.c      # Ward-wise patient count
-├── main.c            # Separate launcher/orchestrator (not documented here)
+│
+├── README.md         # Project documentation
+│
 ├── output/
-│   ├── hosp_read
-│   └── hospital.txt
-└── build/
-	└── Debug/
+│   ├── hospital.txt  # Generated patient data file
+│   └── *.exe         # Compiled executables (if generated here)
 ```
 
 ---
