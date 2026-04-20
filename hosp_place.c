@@ -21,7 +21,7 @@ void displayKathmanduPatients()
     printf("\nEnter city to filter: ");
     scanf("%s", searchCity);
     printf("\n\nPatients from %s:\n", searchCity);
-    printf("Name \t Age \t Address \t Condition \t Ward\n");
+    printf("Name \t \t Age  \t Address\t Condition \t Ward\n");
     rewind(fp);
     for(int i = 0; i < 24; i++)
     {
@@ -29,7 +29,7 @@ void displayKathmanduPatients()
             break; // Stop if reading fails
         if(strstr(hpp.address, searchCity) != NULL)
         {
-            printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
+            printf("%-12s\t%-5d\t%-15s\t%-12s\t%-12s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
             count++;
         }
     }

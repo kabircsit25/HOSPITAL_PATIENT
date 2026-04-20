@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
 struct hosp_write
 {
     char name[20];
@@ -9,7 +9,7 @@ struct hosp_write
     char ward[20];
 };
 
-//Kathmandu patients by Arun -1
+// Kathmandu patients by Arun -1
 
 void displayKathmanduPatients()
 {
@@ -21,31 +21,31 @@ void displayKathmanduPatients()
     printf("\nEnter city to filter: ");
     scanf("%s", searchCity);
     printf("\n\nPatients from %s:\n", searchCity);
-    printf("Name \t Age \t Address \t Condition \t Ward\n");
+    printf("Name \t \t Age  \t Address\t Condition \t Ward\n");
     rewind(fp);
-    for(int i = 0; i < 24; i++)
+    for (int i = 0; i < 24; i++)
     {
-        if(fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
+        if (fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
             break; // Stop if reading fails
-        if(strstr(hpp.address, searchCity) != NULL)
+        if (strstr(hpp.address, searchCity) != NULL)
         {
-            printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
+            printf("%-12s\t%-5d\t%-15s\t%-12s\t%-12s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
             count++;
         }
     }
-    if(count == 0)
+    if (count == 0)
         printf("No patients found from %s.\n", searchCity);
-        printf("\nTotal patients from %s: %d\n", searchCity, count);
+    printf("\nTotal patients from %s: %d\n", searchCity, count);
 }
 
-//Age by Ankit -2
+// Age by Ankit -2
 
 void hospitalage()
 {
     struct hosp_write hpp[24];
     FILE *fp;
     int i;
-    fp = fopen("hospital.txt", "r");
+    fp = fopen("hospital.txt", "r+");
     if (fp == NULL)
     {
         printf("Unable to find file");
@@ -77,7 +77,7 @@ void hospitalage()
         }
     }
 
-     // dispalying the oldest and youngest age
+    // dispalying the oldest and youngest age
     printf("Oldest age patients detail:\n");
     for (i = 0; i < 24; i++)
     {
@@ -99,18 +99,17 @@ void hospitalage()
     fclose(fp);
 }
 
-//Patient critical condition by Bikash -3
+// Patient critical condition by Bikash -3
 
 void hospitalcondition()
 {
     int i;
     struct hosp_write hpp[24];
     FILE *fp;
-    fp = fopen("hospital.txt", "r");
-    if(fp == NULL)
+    fp = fopen("hospital.txt", "r+");
+    if (fp == NULL)
     {
         printf("Error opening file!\n");
-    
     }
     printf("\nPatients with Critical Condition:\n\n");
     // Top border
@@ -120,18 +119,18 @@ void hospitalcondition()
            "Name", "Age", "Address", "Condition", "Ward");
     // Separator
     printf("+----------------+-----+----------------+----------------+---------------+\n");
-    for(i = 0; i < 24; i++)
+    for (i = 0; i < 24; i++)
     {
-        if(fscanf(fp, "%s %d %s %s %s",
-     hpp[i].name,
-     &hpp[i].age,
-      hpp[i].address,
-      hpp[i].condition,
-    hpp[i].ward) != 5)
+        if (fscanf(fp, "%s %d %s %s %s",
+                   hpp[i].name,
+                   &hpp[i].age,
+                   hpp[i].address,
+                   hpp[i].condition,
+                   hpp[i].ward) != 5)
         {
             break;
         }
-        if(strcmp(hpp[i].condition, "Critical") == 0)
+        if (strcmp(hpp[i].condition, "Critical") == 0)
         {
             printf("| %-14s | %-3d | %-14s | %-14s | %-13s |\n",
                    hpp[i].name,
@@ -144,17 +143,15 @@ void hospitalcondition()
     // Bottom border
     printf("+----------------+-----+----------------+----------------+---------------+\n");
     fclose(fp);
-
 }
 
 // Patient count by Kabir -4
-
 
 int hospitalPatientCount()
 {
     int i, w1 = 0, w2 = 0, w3 = 0, w4 = 0, w5 = 0, w6 = 0, w7 = 0, w8 = 0, w9 = 0, w10 = 0;
     struct hosp_write hpp[24];
-     FILE *fp;
+    FILE *fp;
     fp = fopen("hospital.txt", "r");
     for (i = 0; i < 24; i++)
     {
@@ -204,7 +201,7 @@ int hospitalPatientCount()
     fclose(fp);
     printf("Total number of patients in GynoWard: %d\n", w1);
 
-    //printf("Name \t Age \t Address \t Condition \t Ward Name \t Number of Patients\n");
+    // printf("Name \t Age \t Address \t Condition \t Ward Name \t Number of Patients\n");
     /*for (i = 0; i < 24; i++)
     {
         if (strcmp(hpp[i].ward_name, "GynoWard") == 0)
@@ -297,53 +294,45 @@ int hospitalPatientCount()
     //         printf("%s \t %d \t %s \t %s \t %s \t %d\n", hpp[i].name, hpp[i].age, hpp[i].address, hpp[i].condition, hpp[i].ward_name, w10);
     //     }
     // }
-return 0;
+    return 0;
 }
-//The reason behind commit is the qn asked to count the number of patients in each ward but the code gives the full info of the patients in each ward. So I have commented the code which gives the full info of the patients in each ward and added the code which gives only the count of patients in each ward.
-
-
+// The reason behind commit is the qn asked to count the number of patients in each ward but the code gives the full info of the patients in each ward. So I have commented the code which gives the full info of the patients in each ward and added the code which gives only the count of patients in each ward.
 
 int main()
 {
     struct hosp_write hpp;
     int i;
     FILE *fp;
-    fp = fopen("hospital.txt", "r");
-    if(fp == NULL)
+    fp = fopen("hospital.txt", "r+");
+    if (fp == NULL)
     {
         printf("Error opening file!");
         return 1;
     }
     int number;
+    do{
     printf("Enter the project number to execute (1 for Kathmandu Patients, 2 for Oldest/Yongest Patient , 3 for Critical Condition, 4 for Patient Count): ");
     scanf("%d", &number);
-    printf("Details of 24 Patients:\n");
-    printf("Name \t Age \t Address \t Condition \t Ward\n");
-    //  for(i = 1; i <= 24; i++)
-    // {
-    //    fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward);
-        
-    //     printf("%s\t%d\t%s\t%s\t%s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
-    // }
-    //Call BEFORE fclose
-    switch (number)
-    {
-    case 1:
-        displayKathmanduPatients();
-        break;
-    case 2:
-        hospitalage();
-        break;
-    case 3:
-        hospitalcondition();
-        break;
-    case 4:
-        hospitalPatientCount();
-        break;
-    default:
-        printf("Invalid project number!\n");
-        break;
-    }
+
+        switch (number)
+        {
+        case 1:
+            displayKathmanduPatients();
+            break;
+        case 2:
+            hospitalage();
+            break;
+        case 3:
+            hospitalcondition();
+            break;
+        case 4:
+            hospitalPatientCount();
+            break;
+        default:
+            printf("Invalid project number!\n");
+            break;
+        }
+    }while(number != 4);
     // displayKathmanduPatients();
     // hospitalPatientCount();
 

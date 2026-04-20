@@ -12,22 +12,25 @@ struct hosp_write
 int main()
 {
     struct hosp_write hpp;
-    int i;
+    int i, n;
     FILE *fp;
 
-    fp = fopen("hospital.txt", "w");
+    printf("Enter the number of patients: ");
+    scanf("%d", &n);
+
+    fp = fopen("hospital.txt", "a+");
     if(fp == NULL)
     {
         printf("Error opening file!");
         return 1;
     }
 
-    printf("Enter details of 24 patients (NO spaces in input)\n");
+    printf("Enter details of n patients you want to add (NO spaces in input)\n");
 
-    for(i = 0; i < 24; i++)
+    for(i = 0; i < n; i++)
     {
         printf("\nPatient %d\n", i + 1);
-
+    
         printf("Name: ");
         scanf("%s", hpp.name);
 
@@ -43,7 +46,7 @@ int main()
         printf("Ward: ");
         scanf("%s", hpp.ward);
 
-        fprintf(fp, "%s %d %s %s %s\n",
+        fprintf(fp, " %s %d %s %s %s\n",
                 hpp.name, hpp.age, hpp.address,
                 hpp.condition, hpp.ward);
     }
