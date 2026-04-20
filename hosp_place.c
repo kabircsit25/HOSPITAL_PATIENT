@@ -21,7 +21,14 @@ void displayKathmanduPatients()
     printf("\nEnter city to filter: ");
     scanf("%s", searchCity);
     printf("\n\nPatients from %s:\n", searchCity);
-    printf("Name \t \t Age  \t Address\t Condition \t Ward\n");
+    //printf("Name \t \t Age  \t Address\t Condition \t Ward\n");
+    // Top border
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
+    // Header
+    printf("| %-14s | %-3s | %-14s | %-14s | %-13s |\n",
+           "Name", "Age", "Address", "Condition", "Ward");
+    // Separator
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
     rewind(fp);
     for(int i = 0; i < 24; i++)
     {
@@ -29,10 +36,11 @@ void displayKathmanduPatients()
             break; // Stop if reading fails
         if(strstr(hpp.address, searchCity) != NULL)
         {
-            printf("%-12s\t%-5d\t%-15s\t%-12s\t%-12s\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
+            printf("%-14s   | %-3d | %-14s | %-14s | %-13s |\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
             count++;
         }
     }
+    printf("+----------------+-----+----------------+----------------+---------------+\n");
     if(count == 0)
         printf("No patients found from %s.\n", searchCity);
         printf("\nTotal patients from %s: %d\n", searchCity, count);
