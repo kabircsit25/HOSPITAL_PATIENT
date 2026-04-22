@@ -319,7 +319,11 @@ int main()
     }
     int number;
     do{
-    printf("Enter the project number to execute (1 for Kathmandu Patients, 2 for Oldest/Yongest Patient , 3 for Critical Condition, 4 for Patient Count): ");
+    printf("\nEnter the project number to execute : \n");
+    printf("1 for Kathmandu Patients \n");
+    printf("2 for Oldest/Yongest Patient \n");
+    printf("3 for Critical Condition \n");
+    printf("4 for Patient Count  Or to Terminate : \n ");
     scanf("%d", &number);
 
         switch (number)
