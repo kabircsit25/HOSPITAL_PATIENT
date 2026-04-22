@@ -323,7 +323,8 @@ int main()
     printf("1 for Kathmandu Patients \n");
     printf("2 for Oldest/Yongest Patient \n");
     printf("3 for Critical Condition \n");
-    printf("4 for Patient Count  Or to Terminate : \n ");
+    printf("4 for Patient Count \n ");
+    printf("5 for exit :\n");
     scanf("%d", &number);
 
         switch (number)
@@ -340,11 +341,12 @@ int main()
         case 4:
             hospitalPatientCount();
             break;
+        case 5:break;
         default:
             printf("Invalid project number!\n");
             break;
         }
-    }while(number != 4 );
+    }while(number != 5);
     // displayKathmanduPatients();
     // hospitalPatientCount();
 
