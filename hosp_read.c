@@ -341,7 +341,7 @@ int main()
         case 4:
             hospitalPatientCount();
             break;
-        case 5:break;
+        case 5: break;
         default:
             printf("Invalid project number!\n");
             break;
