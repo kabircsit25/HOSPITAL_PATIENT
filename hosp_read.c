@@ -9,6 +9,56 @@ struct hosp_write
     char ward[20];
 };
 
+// for add new details
+
+int addnewdetail()
+{
+    struct hosp_write hpp;
+    int i, n;
+    FILE *fp;
+
+    printf("Enter the number of patients: ");
+    scanf("%d", &n);
+
+    fp = fopen("hospital.txt", "a+");
+    if (fp == NULL)
+    {
+        printf("Error opening file!");
+        return 1;
+    }
+
+    printf("Enter details of n patients you want to add (NO spaces in input)\n");
+
+    for (i = 0; i < n; i++)
+    {
+        printf("\nPatient %d\n", i + 1);
+
+        printf("Name: ");
+        scanf("%s", hpp.name);
+
+        printf("Age: ");
+        scanf("%d", &hpp.age);
+
+        printf("Address: ");
+        scanf("%s", hpp.address);
+
+        printf("Condition: ");
+        scanf("%s", hpp.condition);
+
+        printf("Ward: ");
+        scanf("%s", hpp.ward);
+
+        fprintf(fp, " %s %d %s %s %s\n",
+                hpp.name, hpp.age, hpp.address,
+                hpp.condition, hpp.ward);
+    }
+
+    printf("\nData saved successfully to hospital.txt\n");
+
+    fclose(fp);
+    return 0;
+}
+
 // Kathmandu patients by Arun -1
 
 void displayKathmanduPatients()
@@ -21,29 +71,33 @@ void displayKathmanduPatients()
     printf("\nEnter city to filter: ");
     scanf("%s", searchCity);
     printf("\n\nPatients from %s:\n", searchCity);
-    //printf("Name \t \t Age  \t Address\t Condition \t Ward\n");
-    // Top border
+    // printf("Name \t \t Age  \t Address\t Condition \t Ward\n");
+    //  Top border
     printf("+----------------+-----+----------------+----------------+---------------+\n");
     // Header
     printf("| %-14s | %-3s | %-14s | %-14s | %-13s |\n",
            "Name", "Age", "Address", "Condition", "Ward");
     // Separator
     printf("+----------------+-----+----------------+----------------+---------------+\n");
-    rewind(fp);
-    for(int i = 0; i < 24; i++)
+
+    // rewind(fp);
+    // IDK why..??
+    for (int i = 0; i < 24; i++)
     {
-        if(fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
+        if (fscanf(fp, "%s %d %s %s %s", hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) != 5)
             break; // Stop if reading fails
-        if(strstr(hpp.address, searchCity) != NULL)
+        // strlwr is easy to scearch address
+        strlwr(hpp.address);
+        if (strstr(hpp.address, searchCity) != NULL)
         {
-            printf("%-14s   | %-3d | %-14s | %-14s | %-13s |\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
+            printf("| %-14s | %-3d | %-14s | %-14s | %-13s |\n", hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
             count++;
         }
     }
     printf("+----------------+-----+----------------+----------------+---------------+\n");
-    if(count == 0)
+    if (count == 0)
         printf("No patients found from %s.\n", searchCity);
-        printf("\nTotal patients from %s: %d\n", searchCity, count);
+    printf("\nTotal patients from %s: %d\n", searchCity, count);
 }
 
 // Age by Ankit -2
@@ -306,6 +360,41 @@ int hospitalPatientCount()
 }
 // The reason behind commit is the qn asked to count the number of patients in each ward but the code gives the full info of the patients in each ward. So I have commented the code which gives the full info of the patients in each ward and added the code which gives only the count of patients in each ward.
 
+// For deleting the details of the emplayee
+int delete()
+{
+    FILE *fp, *temp;
+    struct hosp_write hpp;
+    char deleteName[20];
+
+    fp = fopen("hospital.txt", "r");
+    temp = fopen("temp.txt", "w");
+
+    printf("Enter name to delete: ");
+    scanf("%s", deleteName);
+
+    while (fscanf(fp, "%s %d %s %s %s",
+                  hpp.name, &hpp.age, hpp.address, hpp.condition, hpp.ward) == 5)
+    {
+
+        if (strcmp(hpp.name, deleteName) != 0)
+        {
+            fprintf(temp, "%s %d %s %s %s\n",
+                    hpp.name, hpp.age, hpp.address, hpp.condition, hpp.ward);
+        }
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    remove("hospital.txt");             // delete old file
+    rename("temp.txt", "hospital.txt"); // rename new file
+
+    printf("Record deleted successfully.\n");
+
+    return 0;
+}
+
 int main()
 {
     struct hosp_write hpp;
@@ -318,35 +407,45 @@ int main()
         return 1;
     }
     int number;
-    do{
-    printf("\nEnter the project number to execute : \n");
-    printf("1 for Kathmandu Patients \n");
-    printf("2 for Oldest/Yongest Patient \n");
-    printf("3 for Critical Condition \n");
-    printf("4 for Patient Count \n ");
-    printf("5 for exit :\n");
-    scanf("%d", &number);
+    while (number != 7)
+    {
+        printf("\nEnter the project number to execute : \n");
+        printf("1 for adding new details of patients \n");
+        printf("2 for Kathmandu Patients \n");
+        printf("3 for Oldest/Yongest Patient \n");
+        printf("4 for Critical Condition \n");
+        printf("5 for Patient Count \n ");
+        printf("6 for Deleting patient details :\n");
+        printf("7 for exit : \n");
+        scanf("%d", &number);
 
         switch (number)
         {
         case 1:
-            displayKathmanduPatients();
+            addnewdetail();
             break;
         case 2:
-            hospitalage();
+            displayKathmanduPatients();
             break;
         case 3:
-            hospitalcondition();
+            hospitalage();
             break;
         case 4:
+            hospitalcondition();
+            break;
+        case 5:
             hospitalPatientCount();
             break;
-        case 5: break;
+        case 6:
+            delete();
+            break;
+        case 7:
+            break;
         default:
             printf("Invalid project number!\n");
             break;
         }
-    }while(number != 5);
+    }
     // displayKathmanduPatients();
     // hospitalPatientCount();
 
